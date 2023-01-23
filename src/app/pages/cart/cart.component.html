@@ -1,0 +1,83 @@
+<mat-card class="max-w-7x1 mx-auto" *ngIf="cart.items.length">
+    <div class="p-6 mt-1">
+        <h2>Your Products List:</h2>
+        <table mat-table [dataSource]="dataSource"
+            class="mat-elevation-z8 w-full">
+
+            <ng-container matColumnDef="product">
+                <th mat-header-cell *matHeaderCellDef>Product</th>
+                <td mat-cell *matCellDef="let element">
+                    <img src="{{element.product}}" alt="product" class="w-[100px] my-5">
+                </td>
+                <td mat-footer-cell *matFooterCellDef>
+                    <button mat-raised-button routerLink="/home">Continue shopping</button>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Name</th>
+                <td class="truncate max-w-xs" mat-cell *matCellDef="let element">
+                    <span>{{element.name}}</span>
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <ng-container matColumnDef="quantity">
+                <th mat-header-cell *matHeaderCellDef>Quantity</th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-icon-button *ngIf="element.quantity >= 2" (click)="onDecreaseQuantityOfItem(element)"><mat-icon>remove_circle</mat-icon></button>
+                    <span>{{element.quantity}}</span>
+                    <button mat-icon-button (click)="onIncreaseQuantityOfItem(element)"><mat-icon>add_circle</mat-icon></button>
+
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <ng-container matColumnDef="price">
+                <th mat-header-cell *matHeaderCellDef>Price</th>
+                <td mat-cell *matCellDef="let element">
+                    <span>{{element.price | currency}}</span>
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <ng-container matColumnDef="total">
+                <th mat-header-cell *matHeaderCellDef>Total</th>
+                <td mat-cell *matCellDef="let element">
+                    <span class="font-bold py-5 block">
+                        {{element.price * element.quantity | currency}}
+                    </span>
+                </td>
+                <td mat-footer-cell *matFooterCellDef>
+                    <span class="font-bold py-5 block">
+                        {{getTotal(cart.items) | currency}}
+                    </span>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef>
+                    <button mat-raised-button color="warn" (click)="onClearListFromCart()">Clear List</button>
+                </th>
+                <td mat-cell *matCellDef="let element">
+                    <div class="flex flex-row justify-between p-2" (click)="onRemoveSingleItemFromCart(this.element)">
+                    <button><mat-icon style="color: red">highlight_remove</mat-icon></button>
+                    </div>
+                </td>
+                <td mat-footer-cell *matFooterCellDef>
+                    <button mat-raised-button class="greenBtn" (click)="onCheckout()">Proceede to Checkout</button>
+                </td>
+            </ng-container>
+            
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+
+        </table>
+    </div>
+</mat-card>
+
+<mat-card *ngIf="!cart.items.length">
+    <div *ngIf="!cart.items.length" class="my-8">
+        <p class="text-center text-lg">
+            <span class="font-bold italic text-rose-500 mr-6 mt-8" >Your cart is empty</span>
+            <button mat-raised-button routerLink="/home">Continue shopping</button>
+        </p>
+    </div>
+</mat-card>

@@ -1,0 +1,48 @@
+<mat-card *ngIf="product" class="mat-elevation-z4" [ngClass]="{'text-center' : !fullWidthMode}">
+    <div *ngIf="!fullWidthMode" >
+        <mat-card-header>
+        </mat-card-header>
+        <div class="bg-[length:auto_230px] h-[235px] bg-center bg-no-repeat p-2" style="background-image: url({{product.image}});"></div>
+            <!-- <img mat-card-image class="h-[140px] p-3" [src]="product.image"> -->
+        <mat-card-content>
+            <mat-card-subtitle class="truncate">{{product.category}}</mat-card-subtitle>
+            <h2 class="truncate hover:whitespace-normal font-bold py-3">{{product.title}}</h2>
+        </mat-card-content>
+        <mat-card-actions class="px-4 justify-between">
+            <span class="text-red-400 font-bold">{{ product.price | currency }}</span> 
+            <mat-button-toggle mat-icon-button (click)="onAddToCart(); isOnCart = !isOnCart">
+                <div *ngIf="!isOnCart; then thenBlock else elseBlock"></div>
+                <ng-template #thenBlock><mat-icon class="text-grey-400">shopping_cart</mat-icon></ng-template>
+                <ng-template #elseBlock><mat-icon class="text-rose-500">shopping_cart</mat-icon></ng-template>
+            </mat-button-toggle>
+        </mat-card-actions>
+    </div>
+
+    <div *ngIf="fullWidthMode" class="flex flex-row">
+            
+        <div class="bg-center bg-no-repeat bg-contain h-[400px] w-[550px]  py-6" style="background-image: url({{product.image}});">
+            <!-- <img md-card-image class=" h-[300px] w-[300px] p-3" [src]="product.image"> -->
+        </div>
+        
+        <div class="flex flex-col justify-around w-[600px] ">
+            <div class="px-6">
+                <h3>{{product.category}}</h3>
+                <h2 class="font-bold py-3 truncate">{{product.title}}</h2>
+                <p>{{product.description}}</p>
+                <div *ngIf="isOnCart === true" class="bg-orange-100 border border-orange-400 text-orange-700 px-4 py-3 rounded relative m-2 mt-6" role="alert">
+                    <strong class="font-bold">You've added this product to cart!</strong>
+                </div>
+            </div>
+            
+            <div class="flex flex-row justify-around px-6 w-[350px]">
+                <span class="text-red-400 font-bold">{{ product.price | currency }}</span>
+                <mat-button-toggle class="mb-4" mat-icon-button (click)="onAddToCart(); isOnCart = !isOnCart">
+                    <div *ngIf="!isOnCart; then thenBlock else elseBlock"></div>
+                    <ng-template #thenBlock><mat-icon class="text-grey-400">shopping_cart</mat-icon></ng-template>
+                    <ng-template #elseBlock><mat-icon class="text-rose-500">shopping_cart</mat-icon></ng-template>
+                </mat-button-toggle>
+            </div>                
+        </div>
+
+    </div>
+</mat-card>

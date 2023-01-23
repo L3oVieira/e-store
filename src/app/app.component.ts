@@ -1,9 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Cart } from './models/cart.model';
+import { CartService } from './services/cart.service';
 
 @Component({
   selector: 'app-root',
   template: `
-    <!--The content below is only a placeholder and can be replaced.-->
+    <app-header [cart]="cart"></app-header>
+    <router-outlet></router-outlet>
+  `,
+  styles: []
+})
+export class AppComponent implements OnInit{
+  title = 'store';
+  cart: Cart = { items: []};
+
+  constructor(private cartService: CartService){}
+  ngOnInit(){
+    this.cartService.cart.subscribe((_cart) => this.cart = _cart)
+  }
+}
+
+
+/* 
+DEFAULT START CODE
+<!--The content below is only a placeholder and can be replaced.-->
     <div style="text-align:center" class="content">
       <h1>
         Welcome to {{title}}!
@@ -24,9 +44,4 @@ import { Component } from '@angular/core';
       </li>
     </ul>
     <router-outlet></router-outlet>
-  `,
-  styles: []
-})
-export class AppComponent {
-  title = 'store';
-}
+*/
